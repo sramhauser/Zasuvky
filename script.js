@@ -1,4 +1,9 @@
-client = new Paho.MQTT.Client("d57a0d1c39d54550b147b58411d86743.s2.eu.hivemq.cloud", 8884, "53c3b579ca4c");
+let client = new Paho.MQTT.Client(
+    'd57a0d1c39d54550b147b58411d86743.s2.eu.hivemq.cloud',
+    8884,
+    'letni-skola' + Math.random()
+)
+
 
 client.connect({
     onSuccess: onConnect,
@@ -43,6 +48,22 @@ function onMessageArrived(message) {
     vypisTeplB.textContent = obj.T2V1_value;
    }
    
+   if("devices/netio/messages/events/" === message.destinationName){
+
+    let vypisID = document.querySelector(".ID");
+    vypisID.textContent = obj.ID;
+
+    let vypisStav = document.querySelector(".stav");
+    vypisStav.textContent = obj.State;
+
+    let vypisPrikon = document.querySelector(".prikonW");
+    vypisPrikon.textContent = obj.Load;
+
+    let vypisSpotreba = document.querySelector(".kumulativniSpotrebaWh");
+    vypisSpotreba.textContent = obj.Energy;
+   }
+
+
 }
 
 function sendMessage(){
